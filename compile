@@ -1,0 +1,4 @@
+#!/bin/sh
+
+arm4.9 -O2 -DRPI2 -mfpu=neon-vfpv4 -mfloat-abi=hard -mcpu=cortex-a7 -nostartfiles -g ecu.c -o kernel.elf
+objcopy4.9 kernel.elf -O binary kernel.img
