@@ -27,23 +27,23 @@ int main(void) {
     GPSET1  = (unsigned int*)(GPIO_BASE+0x20);
     GPCLR0  = (unsigned int*)(GPIO_BASE+0x28);
     GPCLR1  = (unsigned int*)(GPIO_BASE+0x2C);
+    *GPFSEL0 |= (1<<12);
 #ifdef RPI2
     *GPFSEL4 |= (1<<21);
-    *GPFSEL0 |= (1<<12);
 #else
     *GPFSEL1 |= (1<<18);
 #endif
     while (1) {
+        *GPCLR0 = (1<<4);
 #ifdef RPI2
         *GPCLR1 = (1<<15);
-        *GPCLR0 = (1<<4);
 #else
         *GPCLR0 = (1<<16);
 #endif
         for ( timer = 0 ; timer < 500000 ; timer++ ) {}
+        *GPSET0 = (1<<4);
 #ifdef RPI2
         *GPSET1 = (1<<15);
-        *GPSET0 = (1<<4);
 #else
         *GPSET0 = (1<<16);
 #endif
