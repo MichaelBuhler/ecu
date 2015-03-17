@@ -1,9 +1,7 @@
 #!/bin/sh
 dir=$(pwd)
 base=$(dirname $0)
-cd $base/src
-arm-none-eabi-gcc -O2 -DRPI2 -mfpu=neon-vfpv4 -mfloat-abi=hard -mcpu=cortex-a7 -nostartfiles -g ecu.c -o kernel7.elf
-mv kernel7.elf ../bin/
-cd ../bin/
-arm-none-eabi-objcopy kernel7.elf -O binary kernel7.img
+cd $base
+arm-none-eabi-gcc -O2 -DRPI2 -mfpu=neon-vfpv4 -mfloat-abi=hard -mcpu=cortex-a7 -nostartfiles -Wl,-T,linker/armelf.x -g src/ecu.c -o bin/kernel7.elf
+arm-none-eabi-objcopy bin/kernel7.elf -O binary bin/kernel7.img
 cd $dir

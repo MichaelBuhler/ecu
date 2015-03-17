@@ -4,29 +4,20 @@
     #define GPIO_BASE 0x20200000UL
 #endif
 
-volatile unsigned int* GPFSEL0;
-volatile unsigned int* GPFSEL1;
-volatile unsigned int* GPFSEL2;
-volatile unsigned int* GPFSEL3;
-volatile unsigned int* GPFSEL4;
-volatile unsigned int* GPFSEL5;
-volatile unsigned int* GPSET0;
-volatile unsigned int* GPSET1;
-volatile unsigned int* GPCLR0;
-volatile unsigned int* GPCLR1;
-volatile unsigned int timer;
+volatile unsigned int* GPFSEL0 = (unsigned int*)(GPIO_BASE);
+volatile unsigned int* GPFSEL1 = (unsigned int*)(GPIO_BASE+0x04);
+volatile unsigned int* GPFSEL2 = (unsigned int*)(GPIO_BASE+0x08);
+volatile unsigned int* GPFSEL3 = (unsigned int*)(GPIO_BASE+0x0C);
+volatile unsigned int* GPFSEL4 = (unsigned int*)(GPIO_BASE+0x10);
+volatile unsigned int* GPFSEL5 = (unsigned int*)(GPIO_BASE+0x14);
+volatile unsigned int* GPSET0  = (unsigned int*)(GPIO_BASE+0x1C);
+volatile unsigned int* GPSET1  = (unsigned int*)(GPIO_BASE+0x20);
+volatile unsigned int* GPCLR0  = (unsigned int*)(GPIO_BASE+0x28);
+volatile unsigned int* GPCLR1  = (unsigned int*)(GPIO_BASE+0x2C);
+
+volatile unsigned int timer = 0;
 
 int main(void) {
-    GPFSEL0 = (unsigned int*)(GPIO_BASE);
-    GPFSEL1 = (unsigned int*)(GPIO_BASE+0x04);
-    GPFSEL2 = (unsigned int*)(GPIO_BASE+0x08);
-    GPFSEL3 = (unsigned int*)(GPIO_BASE+0x0C);
-    GPFSEL4 = (unsigned int*)(GPIO_BASE+0x10);
-    GPFSEL5 = (unsigned int*)(GPIO_BASE+0x14);
-    GPSET0  = (unsigned int*)(GPIO_BASE+0x1C);
-    GPSET1  = (unsigned int*)(GPIO_BASE+0x20);
-    GPCLR0  = (unsigned int*)(GPIO_BASE+0x28);
-    GPCLR1  = (unsigned int*)(GPIO_BASE+0x2C);
     *GPFSEL0 |= (1<<12);
 #ifdef RPI2
     *GPFSEL4 |= (1<<21);
