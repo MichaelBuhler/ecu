@@ -1,0 +1,27 @@
+#ifdef RPI2
+    #define PERIPHERAL_BASE 0x3F000000
+    #define GPIO_BASE 0x3F200000
+    #define GPFSEL0 0x3F200000
+    #define GPFSEL1 0x3F200004
+    #define GPFSEL2 0x3F200008
+    #define GPFSEL3 0x3F20000C
+    #define GPFSEL4 0x3F200010
+    #define GPFSEL5 0x3F200014
+    #define GPSET0  0x3F20001C
+    #define GPSET1  0x3F000020
+    #define GPCLR0  0x3F200028
+    #define GPCLR1  0x3F20002C
+#else
+    #define PERIPHERAL_BASE 0x20000000
+    #define GPIO_BASE 0x20200000
+    #define GPFSEL0 0x20200000
+    #define GPFSEL1 0x20200004
+    #define GPFSEL2 0x20200008
+    #define GPFSEL3 0x2020000C
+    #define GPFSEL4 0x20200010
+    #define GPFSEL5 0x20200014
+    #define GPSET0  0x2020001C
+    #define GPSET1  0x20000020
+    #define GPCLR0  0x20200028
+    #define GPCLR1  0x2020002C
+#endif
