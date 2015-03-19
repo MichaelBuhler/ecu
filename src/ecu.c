@@ -1,7 +1,5 @@
 #include "lib/gpio.c"
 
-extern void _store(unsigned long* r0, unsigned long r1);
-
 volatile unsigned int timer = 0;
 
 void kernel_main( unsigned int r0, unsigned int r1, unsigned int atags ) {
