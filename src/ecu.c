@@ -1,18 +1,18 @@
-#include "lib/gpio.h"
+#include "lib/gpio.c"
 
 extern void _store(unsigned long* r0, unsigned long r1);
 
 volatile unsigned int timer = 0;
 
 void kernel_main( unsigned int r0, unsigned int r1, unsigned int atags ) {
-    unsigned long* gpfsel0 = (unsigned long*)GPFSEL0;
-    unsigned long* gpclr0  = (unsigned long*)GPCLR0;
-    unsigned long* gpset0  = (unsigned long*)GPSET0;
-    *gpfsel0 |= (1<<12);
+    gpio_pinMode(4,GPIO_OUTPUT);
+    gpio_pinMode(17,GPIO_OUTPUT);
     while (1) {
-        _store(gpclr0,(1<<4));
+        gpio_digitalWrite(4,GPIO_HIGH);
+        gpio_digitalWrite(17,GPIO_LOW);
         for ( timer = 0 ; timer < 500000 ; timer++ ) {}
-        _store(gpset0,(1<<4));
+        gpio_digitalWrite(4,GPIO_LOW);
+        gpio_digitalWrite(17,GPIO_HIGH);
         for ( timer = 0 ; timer < 500000 ; timer++ ) {}
     }
 }
