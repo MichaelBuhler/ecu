@@ -56,3 +56,17 @@ void gpio_digitalWrite(int pin, char value) {
     pin %= 32;
     *reg = (1<<pin);
 }
+
+char gpio_digitalRead(int pin) {
+    unsigned long *reg;
+    if ( pin < 32 )
+        reg = (unsigned long*)(GPIO_LEV0);
+    else if ( pin <= 53 )
+        reg = (unsigned long*)(GPIO_LEV1);
+    else
+        return GPIO_ERROR;
+    if ( (*reg & (1<<pin)) > 0 )
+        return GPIO_HIGH;
+    return GPIO_LOW;
+    
+}
