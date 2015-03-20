@@ -37,8 +37,8 @@
 #define GPIO_HIGH (char)(1)
 #define GPIO_ERROR (char)(127)
 
-void gpio_pinMode(int pin, char mode);
-void gpio_digitalWrite(int pin, char value);
-char gpio_digitalRead(int pin);
+void gpio_mode(int pin, char mode);
+char gpio_read(int pin);
+void gpio_write(int pin, char value);
 
 #endif

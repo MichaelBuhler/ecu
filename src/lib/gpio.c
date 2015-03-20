@@ -1,6 +1,6 @@
 #include "gpio.h"
 
-void gpio_pinMode(int pin, char mode) {
+void gpio_mode(int pin, char mode) {
     unsigned long *reg;
     if ( pin < 10 )
         reg = (unsigned long*)(GPIO_FSEL0);
@@ -31,7 +31,20 @@ void gpio_pinMode(int pin, char mode) {
     }
 }
 
-void gpio_digitalWrite(int pin, char value) {
+char gpio_read(int pin) {
+    unsigned long *reg;
+    if ( pin < 32 )
+        reg = (unsigned long*)(GPIO_LEV0);
+    else if ( pin <= 53 )
+        reg = (unsigned long*)(GPIO_LEV1);
+    else
+        return GPIO_ERROR;
+    if ( (*reg & (1<<pin)) > 0 )
+        return GPIO_HIGH;
+    return GPIO_LOW;
+}
+
+void gpio_write(int pin, char value) {
     unsigned long *reg;
     switch ( value ) {
         case GPIO_LOW:
@@ -55,18 +68,4 @@ void gpio_digitalWrite(int pin, char value) {
     }
     pin %= 32;
     *reg = (1<<pin);
-}
-
-char gpio_digitalRead(int pin) {
-    unsigned long *reg;
-    if ( pin < 32 )
-        reg = (unsigned long*)(GPIO_LEV0);
-    else if ( pin <= 53 )
-        reg = (unsigned long*)(GPIO_LEV1);
-    else
-        return GPIO_ERROR;
-    if ( (*reg & (1<<pin)) > 0 )
-        return GPIO_HIGH;
-    return GPIO_LOW;
-    
 }
