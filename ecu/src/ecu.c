@@ -4,8 +4,8 @@
 #define INPUT_PIN 21
 
 void setup() {
-    gpio_mode(INPUT_PIN,0);
-    gpio_mode(ONBOARD_LED,1);
+    gpio_mode(INPUT_PIN,GPIO_INPUT);
+    gpio_mode(ONBOARD_LED,GPIO_OUTPUT);
 }
 
 void loop() {
