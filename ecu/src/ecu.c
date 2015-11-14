@@ -1,10 +1,7 @@
+#include "ecu.h"
 #include "gpio.h"
 
-extern void put32 ( unsigned int, unsigned int );
-extern unsigned int get32 ( unsigned int );
-extern void noop ( unsigned int );
-
-int notmain(void) {
+void ecu(void) {
     unsigned int ra;
 
     ra = get32(GPIO_FSEL4);
@@ -20,5 +17,4 @@ int notmain(void) {
         for ( ra = 0 ; ra < 0x100000 ; ra++ )
             noop(ra);
     }
-    return 0;
 }
