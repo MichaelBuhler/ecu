@@ -1,10 +1,10 @@
-#ifndef RPI_H
-#define RPI_H
+#ifndef GPIO_H
+#define GPIO_H
 
 #ifdef RPI2
-    #define GPIO_BASE       0x3F200000
+    #define GPIO_BASE 0x3F200000
 #else
-    #define GPIO_BASE       0x20200000
+    #define GPIO_BASE 0x20200000
 #endif
 
 #define GPIO_FSEL0 GPIO_BASE
