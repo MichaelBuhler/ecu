@@ -1,5 +1,7 @@
 #include "gpio.h"
-#include "ecu.h"
+
+void put32 ( unsigned int, unsigned int );
+unsigned int get32 ( unsigned int );
 
 void gpio_mode( unsigned int pin, unsigned int mode) {
     unsigned int fsel = 0;

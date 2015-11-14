@@ -1,5 +1,5 @@
 #include "ecu.h"
-#include "gpio.c"
+#include "lib/gpio.c"
 
 void ecu(void) {
     unsigned int ra;
