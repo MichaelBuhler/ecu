@@ -1,7 +1,12 @@
 .global _start
 _start:
     mov sp, #0x8000
-    bl ecu
+    bl setup
+
+.global _loop
+_loop:
+    bl loop
+    b _loop
 
 .global noop
 noop:
