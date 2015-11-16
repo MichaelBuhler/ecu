@@ -1,13 +1,25 @@
 #include "ecu.h"
 #include "lib/gpio.c"
 
-#define INPUT_PIN 21
+#define SYSTIMERCLO 0x3F003004
 
 void setup() {
-    gpio_mode(INPUT_PIN,GPIO_INPUT);
     gpio_mode(ONBOARD_LED,GPIO_OUTPUT);
+    gpio_write(ONBOARD_LED,GPIO_HIGH);
 }
 
 void loop() {
-    gpio_write(ONBOARD_LED, gpio_read(INPUT_PIN) );
+    unsigned int now = 0;
+    unsigned int next = 1000000;
+    unsigned int state = 1;
+    while(1)
+    {
+        now = get32(SYSTIMERCLO);
+        if ( now > next ) {
+            state ^= 1;
+            gpio_write(ONBOARD_LED,state);
+            next += 1000000;
+        }
+    }
 }
+

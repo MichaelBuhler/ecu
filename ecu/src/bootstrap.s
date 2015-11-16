@@ -2,8 +2,6 @@
 _start:
     mov sp, #0x8000
     bl setup
-
-.global _loop
 _loop:
     bl loop
     b _loop
@@ -21,3 +19,4 @@ get32:
 put32:
     str r1, [r0]
     bx lr
+
