@@ -26,8 +26,4 @@
 #define GPIO_HIGH 1
 #define GPIO_LOW 0
 
-void gpio_mode( unsigned int, unsigned int);
-void gpio_write( unsigned int, unsigned int );
-unsigned int gpio_read( unsigned int );
-
 #endif
