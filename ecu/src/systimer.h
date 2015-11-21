@@ -1,11 +1,9 @@
 #ifndef SYSTIMER_H
 #define SYSTIMER_H
 
-#ifdef RPI2
-    #define SYSTIMER_BASE 0x3F003000
-#else
-    #define SYSTIMER_BASE 0x20003000
-#endif
+#include "rpi.h"
+
+#define SYSTIMER_BASE PERIPHERAL_BASE+0x00003000
 
 #define SYSTIMER_CONTROL       SYSTIMER_BASE
 #define SYSTIMER_COUNTER_LOW   SYSTIMER_BASE+0x04
@@ -14,5 +12,8 @@
 #define SYSTIMER_COMPARE1      SYSTIMER_BASE+0x10
 #define SYSTIMER_COMPARE2      SYSTIMER_BASE+0x14
 #define SYSTIMER_COMPARE3      SYSTIMER_BASE+0x18
+
+unsigned long micros();
+void delay( unsigned long );
 
 #endif

@@ -1,6 +1,5 @@
-#include "ecu.h"
-#include "lib/gpio.c"
-#include "lib/systimer.c"
+#include "rpi.h"
+#include "gpio.h"
 
 #define CPS_PIN 7
 #define NUM_CYLINDERS 4
@@ -53,4 +52,3 @@ void loop() {
     else
         gpio_write(IGNITION2,0);
 }
-

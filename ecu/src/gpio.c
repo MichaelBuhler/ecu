@@ -1,10 +1,7 @@
 #include "gpio.h"
 
-void put32 ( unsigned int, unsigned int );
-unsigned int get32 ( unsigned int );
-
-void gpio_mode( unsigned int pin, unsigned int mode) {
-    unsigned int fsel = 0;
+void gpio_mode( unsigned char pin, unsigned char mode) {
+    unsigned long fsel = 0;
     if ( pin < 10 ) {
         fsel = get32( GPIO_FSEL0 );
     } else if ( pin < 20 ) {
@@ -35,15 +32,15 @@ void gpio_mode( unsigned int pin, unsigned int mode) {
     }
 }
 
-void gpio_write( unsigned int pin, unsigned int value) {
-    if ( value == 0 ) {
+void gpio_write( unsigned char pin, unsigned char value) {
+    if ( value == GPIO_LOW ) {
         if ( pin < 32 ) {
             put32( GPIO_CLR0, 1<<pin );
         } else {
             put32( GPIO_CLR1, 1<<(pin%32) );
         }
     }
-    if ( value == 1 ) {
+    if ( value == GPIO_HIGH ) {
         if ( pin < 32 ) {
             put32( GPIO_SET0, 1<<pin );
         } else {
@@ -52,15 +49,14 @@ void gpio_write( unsigned int pin, unsigned int value) {
     }
 }
 
-unsigned int gpio_read( unsigned int pin ) {
-    unsigned int lev;
+unsigned char gpio_read( unsigned char pin ) {
+    unsigned char lev;
     if ( pin < 32 ) {
         lev = get32( GPIO_LEV0 );
     } else {
         lev = get32( GPIO_LEV1 );
     }
     lev &= 1<<(pin%32);
-    if ( lev > 0 ) return 1;
-    return 0;
+    if ( lev ) return GPIO_HIGH;
+    return GPIO_LOW;
 }
-
