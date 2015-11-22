@@ -1,31 +1,37 @@
 #define OUTPUT_PIN 2
 #define RPM 30;
 
-unsigned int us;
-unsigned int times;
-unsigned int i;
-unsigned int j;
+unsigned long us;
+unsigned long until;
+unsigned char state;
+unsigned char toothNum;
 
 void setup() {
-  us = 833333 / RPM;
-  times = us / 16383 + 1;
-  us /= times;
-  pinMode(2,OUTPUT);
+    Serial.begin(9600);
+    us = 833333 / RPM;
+    until = 0;
+    state = 0;
+    toothNum = 0;
+    pinMode(OUTPUT_PIN,OUTPUT);
 }
 
 void loop() {
-  for ( i = 0 ; i < 35 ; i++ ) {
-    digitalWrite(OUTPUT_PIN,HIGH);
-    pause();
-    digitalWrite(OUTPUT_PIN,LOW);
-    pause();
-  }
-  pause();
-  pause();
-}
-
-void pause() {
-  for ( j = 0 ; j < times ; j++ )
-    delayMicroseconds(us);
+    while ( Serial.available() )
+        Serial.write(Serial.read());
+    unsigned long now = micros();
+    if ( now > until ) {
+        if ( state ) {
+            state = 0;
+            digitalWrite(OUTPUT_PIN,LOW);
+        }
+        else {
+            state = 1;
+            toothNum++;
+            toothNum %= 36;
+            if ( toothNum != 35 )
+                digitalWrite(OUTPUT_PIN,HIGH);
+        }
+        until = now + us;
+    }
 }
 
