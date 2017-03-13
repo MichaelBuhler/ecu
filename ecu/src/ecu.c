@@ -1,17 +1,8 @@
+#include "ecu.h"
 #include "rpi.h"
 #include "gpio.h"
 #include "serial.h"
 #include "systimer.h"
-
-#define SERIAL_RX 22
-#define SERIAL_TX 27
-#define SERIAL_BAUD 9600
-
-#define CPS_PIN 4
-#define IGNITION1 18
-#define IGNITION2 23
-#define IGNITION3 24
-#define IGNITION4 25
 
 unsigned char synced;
 unsigned char toothNum;
@@ -24,11 +15,11 @@ serial_t serial;
 
 void setup () {
     gpio_mode(CPS_PIN, GPIO_INPUT);
-    gpio_mode(ONBOARD_LED, GPIO_OUTPUT);
-    gpio_mode(IGNITION1, GPIO_OUTPUT);
-    gpio_mode(IGNITION2, GPIO_OUTPUT);
-    gpio_mode(IGNITION3, GPIO_OUTPUT);
-    gpio_mode(IGNITION4, GPIO_OUTPUT);
+    gpio_mode(ONBOARD_LED_PIN, GPIO_OUTPUT);
+    gpio_mode(IGNITION1_PIN, GPIO_OUTPUT);
+    gpio_mode(IGNITION2_PIN, GPIO_OUTPUT);
+    gpio_mode(IGNITION3_PIN, GPIO_OUTPUT);
+    gpio_mode(IGNITION4_PIN, GPIO_OUTPUT);
     synced = 0;
     toothNum = 0;
     state = 0;
@@ -36,12 +27,17 @@ void setup () {
     upTime = 0;
     downTime = 0;
     position = 0;
-    serial_init(&serial, SERIAL_RX, SERIAL_TX);
-    serial_begin(&serial, SERIAL_BAUD);
+    serial_init(&serial, SERIAL_RX_PIN, SERIAL_TX_PIN);
+    serial_begin(&serial, SERIAL_BAUD_RATE);
 }
 
 void loop () {
     unsigned long now = micros();
+    serial_loop(&serial, now);
+    ecu_loop(now);
+}
+
+void ecu_loop (unsigned long now) {
 
     if ( synced ) {
 
@@ -68,31 +64,31 @@ void loop () {
         }
 
         if ( position >= 0 && position <= 5000 ) {
-            gpio_write(IGNITION1, GPIO_HIGH);
+            gpio_write(IGNITION1_PIN, GPIO_HIGH);
         }
         else {
-            gpio_write(IGNITION1, GPIO_LOW);
+            gpio_write(IGNITION1_PIN, GPIO_LOW);
         }
 
         if ( position >= 180000 && position <= 185000 ) {
-            gpio_write(IGNITION3, GPIO_HIGH);
+            gpio_write(IGNITION3_PIN, GPIO_HIGH);
         }
         else {
-            gpio_write(IGNITION3, GPIO_LOW);
+            gpio_write(IGNITION3_PIN, GPIO_LOW);
         }
 
         if ( position >= 360000 && position <= 365000 ) {
-            gpio_write(IGNITION4, GPIO_HIGH);
+            gpio_write(IGNITION4_PIN, GPIO_HIGH);
         }
         else {
-            gpio_write(IGNITION4, GPIO_LOW);
+            gpio_write(IGNITION4_PIN, GPIO_LOW);
         }
 
         if ( position >= 540000 && position <= 545000 ) {
-            gpio_write(IGNITION2, GPIO_HIGH);
+            gpio_write(IGNITION2_PIN, GPIO_HIGH);
         }
         else {
-            gpio_write(IGNITION2, GPIO_LOW);
+            gpio_write(IGNITION2_PIN, GPIO_LOW);
         }
 
         if ( position == 0 ) {
@@ -112,7 +108,7 @@ void loop () {
                 position = 0;
                 synced = 1;
                 toothNum = 0;
-                gpio_write(ONBOARD_LED, GPIO_HIGH);
+                gpio_write(ONBOARD_LED_PIN, GPIO_HIGH);
             }
             upTime = now;
         }

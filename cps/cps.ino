@@ -1,5 +1,5 @@
 #define OUTPUT_PIN 2
-#define RPM 30;
+#define RPM 900;
 
 unsigned long us;
 unsigned long until;
